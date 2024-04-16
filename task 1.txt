@@ -1,0 +1,66 @@
+tasks = []
+
+def add_task(task):
+    tasks.append(task)
+
+def view_tasks():
+    for i, task in enumerate(tasks):
+        print(f"{i+1}. {task}")
+
+def update_task(index, task):
+    tasks[index] = task
+
+def delete_task(index):
+    del tasks[index]
+
+def save_tasks(filename):
+    with open(filename, 'w') as f:
+        for task in tasks:
+            f.write(task + '\n')
+
+def load_tasks(filename):
+    with open(filename, 'r') as f:
+        for line in f:
+            tasks.append(line.strip())
+
+def main():
+    # Load tasks from a file if exists
+    try:
+        load_tasks('tasks.txt')
+    except FileNotFoundError:
+        pass
+
+    while True:
+        print("1. Add Task")
+        print("2. View Tasks")
+        print("3. Update Task")
+        print("4. Delete Task")
+        print("5. Save Tasks")
+        print("6. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            task = input("Enter the task: ")
+            add_task(task)
+        elif choice == '2':
+            view_tasks()
+        elif choice == '3':
+            index = int(input("Enter the index of the task to update: ")) - 1
+            task = input("Enter the updated task: ")
+            update_task(index, task)
+        elif choice == '4':
+            index = int(input("Enter the index of the task to delete: ")) - 1
+            delete_task(index)
+        elif choice == '5':
+            save_tasks('tasks.txt')
+            print("Tasks saved successfully.")
+        elif choice == '6':
+            save_tasks('tasks.txt')
+            print("Exiting...")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
